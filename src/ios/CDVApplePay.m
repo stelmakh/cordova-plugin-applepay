@@ -1,5 +1,4 @@
 #import "CDVApplePay.h"
-#import "Stripe.h"
 #import "STPTestPaymentAuthorizationViewController.h"
 #import <PassKit/PassKit.h>
 #import <UIKit/UIKit.h>
