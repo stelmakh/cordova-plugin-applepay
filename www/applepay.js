@@ -15,7 +15,7 @@ var ApplePay = {
             successCallback,
             errorCallback,
             'ApplePay',
-            'setMerchantId',
+            'setupStripe',
             [merchantId, stripePublishableKey]
         );
     },
