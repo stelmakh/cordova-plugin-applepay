@@ -2,19 +2,9 @@
 #import <PassKit/PassKit.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
-#import "Stripe.h"
-
-NSString * const StripePublishableKey = @"pk_test_4ObuvKrPHRA5tFWNpi2MB1pk";
+#import <Stripe/Stripe+ApplePay.h>
 
 @implementation CDVApplePay
-
-- (CDVPlugin*)initWithWebView:(UIWebView*)theWebView
-{
-    [Stripe setDefaultPublishableKey:StripePublishableKey];
-    self = (CDVApplePay*)[super initWithWebView:(UIWebView*)theWebView];
-
-    return self;
-}
 
 - (void)dealloc
 {
@@ -26,16 +16,19 @@ NSString * const StripePublishableKey = @"pk_test_4ObuvKrPHRA5tFWNpi2MB1pk";
 
 }
 
-- (void)setMerchantId:(CDVInvokedUrlCommand*)command
+- (void)setupStripe:(CDVInvokedUrlCommand*)command
 {
     merchantId = [command.arguments objectAtIndex:0];
+    stripePublishableKey = [command.arguments objectAtIndex:1];
+    [Stripe setDefaultPublishableKey: stripePublishableKey];
     NSLog(@"ApplePay set merchant id to %@", merchantId);
+    NSLog(@"ApplePay set stripe publishable key to %@", stripePublishableKey);
 }
 
 - (void)getAllowsApplePay:(CDVInvokedUrlCommand*)command
 {
     if (merchantId == nil) {
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"Please call setMerchantId() with your Apple-given merchant ID."];
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"Please call setupStripe() with your Apple-given merchant ID."];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         return;
     }
@@ -55,13 +48,8 @@ NSString * const StripePublishableKey = @"pk_test_4ObuvKrPHRA5tFWNpi2MB1pk";
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"user has apple pay"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } else {
-#if DEBUG
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"in debug mode, simulating apple pay"];
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-#else
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"user does not have apple pay"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-#endif
     }
 }
 
@@ -69,7 +57,7 @@ NSString * const StripePublishableKey = @"pk_test_4ObuvKrPHRA5tFWNpi2MB1pk";
 {
 
     if (merchantId == nil) {
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"Please call setMerchantId() with your Apple-given merchant ID."];
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"Please call setupStripe() with your Apple-given merchant ID."];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         return;
     }
@@ -121,18 +109,8 @@ NSString * const StripePublishableKey = @"pk_test_4ObuvKrPHRA5tFWNpi2MB1pk";
         [self.viewController dismissViewControllerAnimated:YES completion:nil];
     };
 
-#if DEBUG
-    STPCard *card = [STPCard new];
-    card.number = @"4242424242424242";
-    card.expMonth = 12;
-    card.expYear = 2020;
-    card.cvc = @"123";
-    [[STPAPIClient sharedClient] createTokenWithCard:card completion:tokenBlock];
-#else
     [[STPAPIClient sharedClient] createTokenWithPayment:payment
-                    operationQueue:[NSOperationQueue mainQueue]
                         completion:tokenBlock];
-#endif
 }
 
 - (void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller {

@@ -2,13 +2,13 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
 xmlns:rim="http://www.blackberry.com/ns/widgets"
 xmlns:android="http://schemas.android.com/apk/res/android"
-           id="si.fan.applepay"
+           id="cc.stelmakh.applepay"
       version="0.0.1">
 
     <name>ApplePay</name>
     <description>Implements Stripe/ApplePay Stuff.</description>
     <keywords>cordova,payment,apple,pay,stripe</keywords>
-    <repo>git@github.com:fan-si/cordova-plugin-applepay.git</repo>
+    <repo>git@github.com:stelmakh/cordova-plugin-applepay.git</repo>
 
     <platform name="ios">
 
@@ -20,56 +20,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <header-file src="src/ios/CDVApplePay.h"/>
         <source-file src="src/ios/CDVApplePay.m"/>
 
-        <!-- Stripe sources -->
-        <source-file src="src/ios/Stripe/STPAPIClient.m"/>
-        <header-file src="src/ios/Stripe/STPAPIConnection.h"/>
-        <source-file src="src/ios/Stripe/STPAPIConnection.m"/>
-        <source-file src="src/ios/Stripe/STPBankAccount.m"/>
-        <source-file src="src/ios/Stripe/STPCard.m"/>
-        <header-file src="src/ios/Stripe/STPFormEncoder.h"/>
-        <source-file src="src/ios/Stripe/STPFormEncoder.m"/>
-        <source-file src="src/ios/Stripe/STPToken.m"/>
-        <source-file src="src/ios/Stripe/StripeError.m"/>
-
-        <!-- Stripe+ApplePay sources -->
-        <source-file src="src/ios/Stripe/ApplePay/STPAPIClient+ApplePay.m"/>
-        <source-file src="src/ios/Stripe/ApplePay/STPPaymentPresenter.m"/>
-        <source-file src="src/ios/Stripe/ApplePay/Stripe+ApplePay.m"/>
-
-
-        <!-- Stripe Checkout sources -->
-        <header-file src="src/ios/Stripe/Checkout/STPCheckoutDelegate.h"/>
-        <header-file src="src/ios/Stripe/Checkout/STPCheckoutInternalUIWebViewController.h"/>
-        <source-file src="src/ios/Stripe/Checkout/STPCheckoutInternalUIWebViewController.m"/>
-        <source-file src="src/ios/Stripe/Checkout/STPCheckoutOptions.m"/>
-        <source-file src="src/ios/Stripe/Checkout/STPCheckoutViewController.m"/>
-        <header-file src="src/ios/Stripe/Checkout/STPCheckoutWebViewAdapter.h"/>
-        <header-file src="src/ios/Stripe/Checkout/STPColorUtils.h"/>
-        <source-file src="src/ios/Stripe/Checkout/STPColorUtils.m"/>
-        <header-file src="src/ios/Stripe/Checkout/STPIOSCheckoutWebViewAdapter.h"/>
-        <source-file src="src/ios/Stripe/Checkout/STPIOSCheckoutWebViewAdapter.m"/>
-        <header-file src="src/ios/Stripe/Checkout/STPOSXCheckoutWebViewAdapter.h"/>
-        <source-file src="src/ios/Stripe/Checkout/STPOSXCheckoutWebViewAdapter.m"/>
-        <header-file src="src/ios/Stripe/Checkout/STPStrictURLProtocol.h"/>
-        <source-file src="src/ios/Stripe/Checkout/STPStrictURLProtocol.m"/>
-
-        <!-- Stripe Public Headers sources -->
-        <header-file src="src/ios/Stripe/PublicHeaders/STPAPIClient.h"/>
-        <header-file src="src/ios/Stripe/PublicHeaders/STPBankAccount.h"/>
-        <header-file src="src/ios/Stripe/PublicHeaders/STPCard.h"/>
-        <header-file src="src/ios/Stripe/PublicHeaders/STPToken.h"/>
-        <header-file src="src/ios/Stripe/PublicHeaders/Stripe.h"/>
-        <header-file src="src/ios/Stripe/PublicHeaders/StripeError.h"/>
-
-        <!-- Stripe+ApplePay Public Headers sources -->
-        <header-file src="src/ios/Stripe/PublicHeaders/ApplePay/STPAPIClient+ApplePay.h"/>
-        <header-file src="src/ios/Stripe/PublicHeaders/ApplePay/STPPaymentPresenter.h"/>
-        <header-file src="src/ios/Stripe/PublicHeaders/ApplePay/Stripe+ApplePay.h"/>
-
-        <!-- Stripe Checkout Public Headers sources -->
-        <header-file src="src/ios/Stripe/PublicHeaders/Checkout/STPCheckoutOptions.h"/>
-        <header-file src="src/ios/Stripe/PublicHeaders/Checkout/STPCheckoutViewController.h"/>
-
         <config-file target="config.xml" parent="/*">
 	        <feature name="ApplePay">
 	            <param name="ios-package" value="CDVApplePay"/>
@@ -80,6 +30,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <framework src="PassKit.framework" />
         <framework src="Foundation.framework" />
         <framework src="Security.framework" />
+
+        <framework src="src/ios/Stripe.framework" custom="true" />
 
     </platform>
 
