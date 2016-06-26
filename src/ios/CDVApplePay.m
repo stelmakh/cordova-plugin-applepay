@@ -27,7 +27,7 @@
 
 - (void)getAllowsApplePay:(CDVInvokedUrlCommand*)command
 {
-    if (merchantId == nil or stripePublishableKey == nil) {
+    if (merchantId == nil || stripePublishableKey == nil) {
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"Please call setupStripe() with your Apple-given merchant ID and Stripe Publishable Key."];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         return;
